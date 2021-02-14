@@ -1,4 +1,4 @@
-module github.com/lanvige/goutils
+module github.com/uiam-net/goutils
 
 go 1.14
 

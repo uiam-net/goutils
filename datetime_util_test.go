@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	applog "github.com/lanvige/goutils/logger"
+	applog "github.com/uiam-net/goutils/logger"
 )
 
 func TestGenTimestamp(t *testing.T) {

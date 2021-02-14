@@ -5,7 +5,7 @@ import (
 	"encoding/base64"
 	"errors"
 
-	applog "github.com/lanvige/goutils/logger"
+	applog "github.com/uiam-net/goutils/logger"
 
 	jwtgo "github.com/dgrijalva/jwt-go"
 )

@@ -3,7 +3,7 @@ package crypto
 import (
 	"testing"
 
-	applog "github.com/lanvige/goutils/logger"
+	applog "github.com/uiam-net/goutils/logger"
 )
 
 // TestRSA256PKCS1KeyGen TestRSA256KeyGen
