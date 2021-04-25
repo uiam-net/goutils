@@ -3,8 +3,8 @@ package hash
 import (
 	"testing"
 
-	goutils "github.com/lanvige/goutils"
-	applog "github.com/lanvige/goutils/logger"
+	goutils "github.com/uiam-net/goutils"
+	applog "github.com/uiam-net/goutils/logger"
 )
 
 func TestCRC32Encode(t *testing.T) {

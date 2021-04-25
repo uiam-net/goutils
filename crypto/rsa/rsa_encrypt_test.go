@@ -4,7 +4,7 @@ import (
 	"encoding/base64"
 	"testing"
 
-	applog "github.com/lanvige/goutils/logger"
+	applog "github.com/uiam-net/goutils/logger"
 )
 
 var Pubkey = `-----BEGIN 公钥-----

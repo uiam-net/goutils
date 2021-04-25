@@ -3,7 +3,7 @@ package aes
 import (
 	"testing"
 
-	applog "github.com/lanvige/goutils/logger"
+	applog "github.com/uiam-net/goutils/logger"
 )
 
 // TestEncrypt TestEncrypt

@@ -3,7 +3,7 @@ package utils
 import (
 	"testing"
 
-	applog "github.com/lanvige/goutils/logger"
+	applog "github.com/uiam-net/goutils/logger"
 )
 
 func TestHex2UUIDGen(t *testing.T) {

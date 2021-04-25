@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"testing"
 
-	applog "github.com/lanvige/goutils/logger"
+	applog "github.com/uiam-net/goutils/logger"
 
-	goutils "github.com/lanvige/goutils"
+	goutils "github.com/uiam-net/goutils"
 )
 
 // BASIC

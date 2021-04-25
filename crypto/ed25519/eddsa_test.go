@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 	"testing"
 
-	applog "github.com/lanvige/goutils/logger"
+	applog "github.com/uiam-net/goutils/logger"
 )
 
 // PKCS8 256

@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 	"hash/crc32"
 
-	goutilscrypto "github.com/lanvige/goutils/crypto"
+	goutilscrypto "github.com/uiam-net/goutils/crypto"
 )
 
 // ==== CRC Operations ===== //

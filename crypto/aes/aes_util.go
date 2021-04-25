@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 	"errors"
 
-	goutilscrypto "github.com/lanvige/goutils/crypto"
+	goutilscrypto "github.com/uiam-net/goutils/crypto"
 )
 
 // ==== Public Operations ===== //

@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	applog "github.com/lanvige/goutils/logger"
+	applog "github.com/uiam-net/goutils/logger"
 )
 
 // ==================== Format ================== //
