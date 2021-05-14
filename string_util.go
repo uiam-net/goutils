@@ -1,122 +1,123 @@
 package utils
 
 import (
-	"encoding/binary"
-	"fmt"
-	"log"
-	"math/rand"
-	"time"
+	crand "crypto/rand"
+	"io"
 )
 
-// func genSymbol(length int) []string {
-// 	charStr := "+=-@#~,.[]()!%^*$"
+// var idChars = []byte(TxtNumbers + TxtAlphabet)
 
-// 	var genstr := []string
+const (
+	TxtNumbers         = "0123456789"
+	TxtAlphabetDown    = "abcdefghijklmnopqrstuvwxyz"
+	TxtAlphabetUp      = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	TxtAlphabet        = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+	TxtSimpleCharaters = "13467ertyiadfhjkxcvbnERTYADFGHJKXCVBN"
+)
 
-// 	//遍历，生成一个随机index索引,
-// 	for i := 0; i < length; i++ {
-// 		index := rand.Intn(len(charStr))
-// 		genstr[i] = charStr[index]
-// 	}
-
-// 	return string(genstr)
-// }
-
-// func genDigit(length int) string {
-// 	charStr := "0123456789"
-// 	var genstr []byte = make([]byte, length, length)
-
-// 	//遍历，生成一个随机index索引,
-// 	for i := 0; i < length; i++ {
-// 		index := rand.Intn(len(charStr))
-// 		genstr[i] = charStr[index]
-// 	}
-
-// 	return string(genstr)
-// }
-
-// func genChar(length int) string {
-// 	charStr := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-// 	var passwd []byte = make([]byte, length, length)
-
-// 	//遍历，生成一个随机index索引,
-// 	for i := 0; i < length; i++ {
-// 		index := rand.Intn(len(charStr))
-// 		passwd[i] = charStr[index]
-// 	}
-
-// 	return string(passwd)
-// }
-
-// // GenPassword GenPassword
-// func GenPassword(length, digitLength, symbolLength uint32) string {
-// 	digitStr = "0123456789"
-// 	charStr := "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-// 	symbolStr := "+=-@#~,.[]()!%^*$"
-
-// 	bytes := []byte(str)
-// 	result := []byte{}
-
-// 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-
-// 	for i := 0; i < l; i++ {
-// 		result = append(result, bytes[r.Intn(len(bytes))])
-// 	}
-
-// 	return string(result)
-// }
-
-// GenRandomString GenRandomString
-func GenRandomString(l int) string {
-	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-	bytes := []byte(str)
-	result := []byte{}
-
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-
-	for i := 0; i < l; i++ {
-		result = append(result, bytes[r.Intn(len(bytes))])
-	}
-
-	return string(result)
+// randomDigits returns a byte slice of the given length containing
+// pseudorandom numbers in range 0-9. The slice can be used as a captcha
+// solution.
+func randomDigits(length int) []byte {
+	return randomBytesMod(length, 10)
 }
 
-// GenRandomNumString GenRandomNumString
-func GenRandomNumString(l int) string {
-	str := "0123456789"
-	bytes := []byte(str)
-	result := []byte{}
-
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-
-	for i := 0; i < l; i++ {
-		result = append(result, bytes[r.Intn(len(bytes))])
+// randomBytes returns a byte slice of the given length read from CSPRNG.
+func randomBytes(length int) (b []byte) {
+	b = make([]byte, length)
+	if _, err := io.ReadFull(crand.Reader, b); err != nil {
+		panic("captcha: error reading random source: " + err.Error())
 	}
-
-	return string(result)
+	return
 }
 
-// GenRandomSixDigital GenRandomSixDigital
-func GenRandomSixDigital() string {
-	var b [8]byte
-	_, err := rand.Read(b[:])
-	if err != nil {
-		log.Panicln(err)
+// randomBytesMod returns a byte slice of the given length, where each byte is
+// a random number modulo mod.
+func randomBytesMod(length int, mod byte) (b []byte) {
+	if length == 0 {
+		return nil
 	}
-
-	c := binary.LittleEndian.Uint64(b[:]) % 1000000
-	if c < 100000 {
-		c = 100000 + c
+	if mod == 0 {
+		panic("captcha: bad mod argument for randomBytesMod")
 	}
-
-	return fmt.Sprintf("%d", c)
+	maxrb := 255 - byte(256%int(mod))
+	b = make([]byte, length)
+	i := 0
+	for {
+		r := randomBytes(length + (length / 4))
+		for _, c := range r {
+			if c > maxrb {
+				// Skip this number to avoid modulo bias.
+				continue
+			}
+			b[i] = c % mod
+			i++
+			if i == length {
+				return
+			}
+		}
+	}
 }
+
+func GenRdmNumbers(length int) string {
+	var chars = []byte(TxtNumbers)
+	b := randomBytesMod(length, byte(len(chars)))
+
+	for i, c := range b {
+		b[i] = chars[c]
+	}
+
+	return string(b)
+}
+
+func GenRdmString(length int) string {
+	var chars = []byte(TxtNumbers + TxtAlphabetDown + TxtAlphabetUp)
+	b := randomBytesMod(length, byte(len(chars)))
+
+	for i, c := range b {
+		b[i] = chars[c]
+	}
+
+	return string(b)
+}
+
+func GenRdmUpstring(length int) string {
+	var chars = []byte(TxtAlphabetUp)
+	b := randomBytesMod(length, byte(len(chars)))
+
+	for i, c := range b {
+		b[i] = chars[c]
+	}
+
+	return string(b)
+}
+
+func GenRdmDownstring(length int) string {
+	var chars = []byte(TxtAlphabetDown)
+	b := randomBytesMod(length, byte(len(chars)))
+
+	for i, c := range b {
+		b[i] = chars[c]
+	}
+
+	return string(b)
+}
+
+func GenRdmStringByChars(length int, chars []byte) string {
+	b := randomBytesMod(length, byte(len(chars)))
+
+	for i, c := range b {
+		b[i] = chars[c]
+	}
+
+	return string(b)
+}
+
+// ========================= Utils =================== //
 
 // DefaultString DefaultString
 func DefaultString(value, defaultValue string) string {
-	if "" == value {
+	if value == "" {
 		return defaultValue
 	}
 

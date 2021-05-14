@@ -7,25 +7,21 @@ import (
 )
 
 func TestRandomNumGen(t *testing.T) {
-	code := GenRandomNumString(10)
+	code := GenRdmNumbers(10)
 
 	applog.Error(code)
 }
 
-func TestRandomStringGen(t *testing.T) {
-	code := GenRandomString(100)
+func TestRandomNumGe2(t *testing.T) {
+	code := GenRdmDownstring(10)
 
 	applog.Error(code)
 }
 
-func TestPasswordStringGen(t *testing.T) {
-	code := GenRandomString(100)
+func TestRandomNumGen3(t *testing.T) {
+	TxtNumbers := "012356789"
 
-	applog.Error(code)
-}
+	code := GenRdmStringByChars(100, []byte(TxtNumbers))
 
-func TestRad6StringGen(t *testing.T) {
-	code := GenRandomSixDigital()
-
-	applog.Error(code)
+	applog.Error(string(code))
 }

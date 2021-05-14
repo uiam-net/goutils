@@ -304,7 +304,7 @@ func GenCustomTimestamp() string {
 	nanosec := now.Nanosecond()
 	nanosecStr := strconv.Itoa(nanosec)
 	microsecStr := nanosecStr[0:3]
-	rdmStr := GenRandomNumString(4)
+	rdmStr := GenRdmNumbers(4)
 
 	// applog.Error(dataStr)
 	// applog.Errorf("microsecStr:%v", microsecStr)

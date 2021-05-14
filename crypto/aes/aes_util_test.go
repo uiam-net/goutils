@@ -8,9 +8,9 @@ import (
 
 // TestEncrypt TestEncrypt
 func TestEncrypt(t *testing.T) {
-	data := "1011212004X"
-	key := "abcdxxx"
-	iv := "14265d0a68"
+	data := "W$EvF1HCAzj2^8=3n5M0u_fO"
+	key := "t7rwZ3KNTz+7exQpvK"
+	iv := "unile.co"
 
 	dataByte := []byte(data)
 	keyByte := []byte(key)
