@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 	"errors"
 
-	goutilscrypto "github.com/uiam-net/goutils/crypto"
+	cryptoutil "github.com/uiam-net/goutils/crypto"
 )
 
 // ==== Public Operations ===== //
@@ -14,13 +14,13 @@ import (
 
 // Encrypt Encrypt
 func Encrypt(data []byte, key, iv []byte) (string, error) {
-	if data == nil || len(data) == 0 {
+	if data == nil {
 		return "", errors.New("Encrypt Params error")
 	}
-	if key == nil || len(key) == 0 {
+	if key == nil {
 		return "", errors.New("Encrypt Params error")
 	}
-	if iv == nil || len(iv) == 0 {
+	if iv == nil {
 		return "", errors.New("Encrypt Params error")
 	}
 
@@ -35,7 +35,7 @@ func Encrypt(data []byte, key, iv []byte) (string, error) {
 	encrypter := cipher.NewCBCEncrypter(ckey, iv)
 
 	// PKCS7补码
-	str := goutilscrypto.PKCS7Padding([]byte(data))
+	str := cryptoutil.PKCS7Padding([]byte(data))
 	out := make([]byte, len(str))
 
 	encrypter.CryptBlocks(out, str)
@@ -64,7 +64,7 @@ func Decrypt(base64Str string, key, iv []byte) ([]byte, error) {
 	decrypter.CryptBlocks(out, base64In)
 
 	// 去除 PKCS7 补码
-	out = goutilscrypto.PKCS7Unpadding(out)
+	out = cryptoutil.PKCS7Unpadding(out)
 	if out == nil {
 		return nil, errors.New("PKCS7Unpadding error")
 	}
